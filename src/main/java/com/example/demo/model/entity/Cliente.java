@@ -2,27 +2,25 @@ package com.example.demo.model.entity;
 
 
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table(name = "clientes")
-@Getter
-@Setter
+@Data
 public class Cliente implements Serializable {
+//idCliente, tipoCli, nombresC, apellidosC, edad, correo, direccion
 
+    @Column(unique = true, nullable = false)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String codCliente;
-    private String nombreCliente;
-    private String apellidoCliente;
-    private String direccion;
-    private String telefono;
+    private String codCli;
+    private Integer tipoCli;
+    private String nombres;
+    private String apellidos;
+    private Integer edad;
     private String correo;
+    private String direccion;
 
 }

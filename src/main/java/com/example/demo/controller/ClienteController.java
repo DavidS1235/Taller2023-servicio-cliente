@@ -3,9 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.model.entity.Cliente;
 import com.example.demo.service.IClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -14,13 +12,38 @@ public class ClienteController {
     @Autowired
     private IClienteService service;
 
-    @GetMapping("/listar-cliente")
+    @GetMapping("/listar-clientes")
     public List<Cliente> listar() {
         return service.findAll();
     }
 
-    @GetMapping("/listar-cliente/{id}")
-    public Cliente buscarPorId(@PathVariable Long id) {
-        return service.findbyId(id);
+    @GetMapping("/listar-clientes/code")
+    public Cliente buscarPorCodCli(@RequestParam String codCli) {
+        return service.findByCodCli(codCli);
     }
+
+    @GetMapping("/listar-clientes/tipo")
+    public List<Cliente> buscarPorTipoCli(@RequestParam Integer tipoCli) {
+        return service.findByTipoCli(tipoCli);
+    }
+
+    @RequestMapping(value = "/clientes/create", method = RequestMethod.POST)
+    public void addCliente(
+            @RequestBody Cliente cliente) {
+        service.createCliente(cliente);
+    }
+
+    @RequestMapping(value = "/clientes/{codCli}", method = RequestMethod.PUT)
+    public void updateCliente(
+            @RequestBody Cliente cliente,
+            @PathVariable String codCli) {
+        service.updateCliente(codCli, cliente);
+    }
+
+    @RequestMapping(value = "/clientes/{codCli}", method = RequestMethod.DELETE)
+    public void deleteCliente(
+            @PathVariable String codCli) {
+        service.deleteCliente(codCli);
+    }
+
 }
